@@ -11,21 +11,21 @@ if ($dvdLoaded)
     $DVDDrive = (Get-WMIObject -Class Win32_CDROMDrive -Property *).Drive
     
     #Handbrake Preset Setup
-    .\HandBrakeCLI --preset-import-file C:\Users\admin\Desktop\HandBrakeCLI-1.3.3-win-x86_64\presets\DVD.json -Z "DVD"
+    .\HandBrakeCLI --preset-import-file <#Path to preset.json#> -Z "DVD"
 
     #Get DVD Name
     $TitleName = (Get-WMIObject -Class Win32_CDROMDrive -Property *).VolumeName
 
     #Set Directory
-    $Dir = "G:\.shortcut-targets-by-id\1o3N6eDlaq5JiH_0lXKtbXLfv5ASNqXms\DVD-CD-Archive\RAW-RIPS\$TitleName\"
+    $Dir = "C:\$TitleName\"
 
     for ($title = 1 ; $title -le 30 ; $title++){
         
         #Encode
-        .\HandBrakeCLI --preset-import-file C:\Users\admin\Desktop\HandBrakeCLI-1.3.3-win-x86_64\presets\DVD.json -Z "DVD" -t $title -scan -min-duration 60 -i $DVDDrive\ -o "G:\.shortcut-targets-by-id\1o3N6eDlaq5JiH_0lXKtbXLfv5ASNqXms\DVD-CD-Archive\RAW-RIPS\$TitleName\$TitleName-$Title.mp4"
+        .\HandBrakeCLI --preset-import-file <#Path to preset.json#> -Z "DVD" -t $title -scan -min-duration 60 -i $DVDDrive\ -o "C:\$TitleName\$TitleName-$Title.mp4"
         
         #Checks to see if the file is large, if it is, the system will assume it's a movie and annihilate all files smaller than it
-        $FileSize = ((Get-Item "G:\.shortcut-targets-by-id\1o3N6eDlaq5JiH_0lXKtbXLfv5ASNqXms\DVD-CD-Archive\RAW-RIPS\$TitleName\$TitleName-$Title.mp4").length/1MB)
+        $FileSize = ((Get-Item "C:\$TitleName\$TitleName-$Title.mp4").length/1MB)
         if ( $FileSize > 600 ){
         $Movie = $true
         }
