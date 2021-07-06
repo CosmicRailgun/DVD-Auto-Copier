@@ -7,5 +7,6 @@ Steps are as follow:
 2. Initializes DVD copy
 3. Checks file size, determines if DVD is likely to be a movie
 4. Using previous info, determines what threshold of filesize to keep and remove
+  - ideally this would not bre required, but HandbrakeCLI doesn't like to list to the titling flags so ahhhhhhhhhhhhhhhhhhhhhhhhhhh
 5. Ejects DVD
 6. Resets and waits for next DVD
