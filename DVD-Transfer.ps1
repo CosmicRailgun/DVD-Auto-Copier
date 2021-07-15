@@ -22,6 +22,9 @@ $PresetFile = "DVD.json"
 while ($true){
 
 
+$Movie = $False
+
+
 #Check if DVD loaded
 $dvdLoaded = (Get-WMIObject -Class Win32_CDROMDrive -Property *).MediaLoaded
 
@@ -33,18 +36,18 @@ if ($dvdLoaded)
 {
     Write-Output "Beginning DVD transfer"
 
+    #Set DVD drive letter
+    $DVDDrive = (Get-WMIObject -Class Win32_CDROMDrive -Property *).Drive
+
+    #Get DVD Name
+    $TitleName = (Get-WMIObject -Class Win32_CDROMDrive -Property *).VolumeName
+
     #Set and Make Directory
     New-Item -Path "C:\Users\admin\Desktop\DVD-RIP\" -Name "$TitleName" -ItemType "directory"
     $Dir = "C:\Users\admin\Desktop\DVD-RIP\$TitleName\"
 
-    #Set DVD drive letter
-    $DVDDrive = (Get-WMIObject -Class Win32_CDROMDrive -Property *).Drive
-    
     #Handbrake Preset Setup
     .\HandBrakeCLI --preset-import-file .\Presets\$PresetFile -Z "$PresetID"
-
-    #Get DVD Name
-    $TitleName = (Get-WMIObject -Class Win32_CDROMDrive -Property *).VolumeName
 
     for ($title = 1 ; $title -le 30 ; $title++){
         
